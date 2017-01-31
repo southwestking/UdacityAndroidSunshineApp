@@ -43,7 +43,7 @@ public final class SunshineWeatherUtils {
     }
 
     /**
-     * Temperature data is stored in Celsius by our app. Depending on the user's preference,
+     * Temperature data is stored in Celsius by our app. Depending on the user'forecast_list_item preference,
      * the app may need to display the temperature in Fahrenheit. This method will perform that
      * temperature conversion if necessary. It will also format the temperature so that no
      * decimal points show. Temperatures will be formatted to the following form: "21°C"
@@ -71,8 +71,8 @@ public final class SunshineWeatherUtils {
      * following form: "HIGH°C / LOW°C"
      *
      * @param context Android Context to access preferences and resources
-     * @param high    High temperature for a day in user's preferred units
-     * @param low     Low temperature for a day in user's preferred units
+     * @param high    High temperature for a day in user'forecast_list_item preferred units
+     * @param low     Low temperature for a day in user'forecast_list_item preferred units
      *
      * @return String in the form: "HIGH°C / LOW°C"
      */
@@ -108,7 +108,7 @@ public final class SunshineWeatherUtils {
         }
 
         /*
-         * You know what's fun, writing really long if/else statements with tons of possible
+         * You know what'forecast_list_item fun, writing really long if/else statements with tons of possible
          * conditions. Seriously, try it!
          */
         String direction = "Unknown";

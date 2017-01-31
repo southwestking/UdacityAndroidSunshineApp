@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     public class GithubQueryTask extends AsyncTask<URL, Void, String> {
 
-        // TODO (26) Override onPreExecute to set the loading indicator to visible
+        // DONE (26) Override onPreExecute to set the loading indicator to visible
 
         @Override
         protected void onPreExecute() {
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String githubSearchResults) {
-            // TODO (27) As soon as the loading is complete, hide the loading indicator
+            // DONE (27) As soon as the loading is complete, hide the loading indicator
             progressBar.setVisibility(View.INVISIBLE);
             if (githubSearchResults != null && !githubSearchResults.equals("")) {
                 // DONE (17) Call showJsonDataView if we have valid, non-null results

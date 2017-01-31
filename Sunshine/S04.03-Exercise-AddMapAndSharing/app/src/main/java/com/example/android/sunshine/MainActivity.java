@@ -219,9 +219,14 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
             mForecastAdapter.setWeatherData(null);
             loadWeatherData();
             return true;
+        } else if (id == R.id.openMap) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            Uri uri = Uri.parse("geo:0,0?q="+SunshinePreferences.getPreferredWeatherLocation(this));
+            intent.setData(uri);
+            startActivity(intent);
         }
 
-        // TODO (2) Launch the map when the map menu item is clicked
+        // DONE (2) Launch the map when the map menu item is clicked
 
         return super.onOptionsItemSelected(item);
     }

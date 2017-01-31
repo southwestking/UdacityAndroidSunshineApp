@@ -20,7 +20,7 @@
     <!-- - - - - - - - - - - - - -->
 
     <!--Used in Action Bar, and in AndroidManifest to tell the device the name of this app.-->
-    <!--It's good to keep this short, so your launcher icon isn't displayed with "The greatest Wea"-->
+    <!--It'forecast_list_item good to keep this short, so your launcher icon isn't displayed with "The greatest Wea"-->
     <!--or something similar.-->
     <string name="app_name">Sunshine</string>
 
@@ -36,10 +36,10 @@
     <!--Used by SunshineDateUtils-->
     <!-- - - - - - - - - - - - - -->
 
-    <!-- For labelling today's forecast [CHAR LIMIT=15] -->
+    <!-- For labelling today'forecast_list_item forecast [CHAR LIMIT=15] -->
     <string name="today">Today</string>
 
-    <!-- For labelling tomorrow's forecast [CHAR LIMIT=15] -->
+    <!-- For labelling tomorrow'forecast_list_item forecast [CHAR LIMIT=15] -->
     <string name="tomorrow">Tomorrow</string>
 
     <!-- Date format [CHAR LIMIT=NONE] -->

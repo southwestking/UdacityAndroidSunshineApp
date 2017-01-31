@@ -46,7 +46,7 @@ public final class OpenWeatherJsonUtils {
     public static String[] getSimpleWeatherStringsFromJson(Context context, String forecastJsonStr)
             throws JSONException {
 
-        /* Weather information. Each day's forecast info is an element of the "list" array */
+        /* Weather information. Each day'forecast_list_item forecast info is an element of the "list" array */
         final String OWM_LIST = "list";
 
         /* All temperatures are children of the "temp" object */
@@ -61,7 +61,7 @@ public final class OpenWeatherJsonUtils {
 
         final String OWM_MESSAGE_CODE = "cod";
 
-        /* String array to hold each day's weather String */
+        /* String array to hold each day'forecast_list_item weather String */
         String[] parsedWeatherData = null;
 
         JSONObject forecastJson = new JSONObject(forecastJsonStr);
@@ -121,7 +121,7 @@ public final class OpenWeatherJsonUtils {
             /*
              * Temperatures are sent by Open Weather Map in a child object called "temp".
              *
-             * Editor's Note: Try not to name variables "temp" when working with temperature.
+             * Editor'forecast_list_item Note: Try not to name variables "temp" when working with temperature.
              * It confuses everybody. Temp could easily mean any number of things, including
              * temperature, temporary and is just a bad variable name.
              */

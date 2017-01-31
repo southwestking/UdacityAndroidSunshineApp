@@ -43,7 +43,7 @@ public final class NetworkUtils {
     /*
      * NOTE: These values only effect responses from OpenWeatherMap, NOT from the fake weather
      * server. They are simply here to allow us to teach you how to build a URL if you were to use
-     * a real API.If you want to connect your app to OpenWeatherMap's API, feel free to! However,
+     * a real API.If you want to connect your app to OpenWeatherMap'forecast_list_item API, feel free to! However,
      * we are not going to show you how to do so in this course.
      */
 

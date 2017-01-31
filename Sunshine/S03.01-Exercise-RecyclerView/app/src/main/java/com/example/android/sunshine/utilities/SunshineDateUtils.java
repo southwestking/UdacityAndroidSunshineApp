@@ -114,7 +114,7 @@ public final class SunshineDateUtils {
 
         if (dayNumber == currentDayNumber || showFullDate) {
             /*
-             * If the date we're building the String for is today's date, the format
+             * If the date we're building the String for is today'forecast_list_item date, the format
              * is "Today, June 24"
              */
             String dayName = getDayName(context, localDate);
