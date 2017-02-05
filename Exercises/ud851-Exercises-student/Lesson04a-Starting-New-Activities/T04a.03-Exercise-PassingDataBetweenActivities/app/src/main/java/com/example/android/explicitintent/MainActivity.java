@@ -17,6 +17,7 @@ package com.example.android.explicitintent;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -29,11 +30,12 @@ public class MainActivity extends AppCompatActivity {
     /* Fields that will store our EditText and Button */
     private EditText mNameEntry;
     private Button mDoSomethingCoolButton;
-
+    private final String KEY = "key";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         /*
          * Using findViewById, we get a reference to our Button from xml. This allows us to
@@ -42,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
          */
         mDoSomethingCoolButton = (Button) findViewById(R.id.b_do_something_cool);
         mNameEntry = (EditText) findViewById(R.id.et_text_entry);
-
+        if (savedInstanceState != null && savedInstanceState.containsKey(KEY))
+            mNameEntry.setText(savedInstanceState.getString(KEY));
         /* Setting an OnClickListener allows us to do something when this button is clicked. */
         mDoSomethingCoolButton.setOnClickListener(new OnClickListener() {
 
@@ -82,6 +85,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(startChildActivityIntent);
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putString(KEY, mNameEntry.getText().toString());
+
     }
 }
 
