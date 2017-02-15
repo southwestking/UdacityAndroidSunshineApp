@@ -29,7 +29,7 @@
     <string name="action_map">Map Location</string>
     <string name="action_share">Share</string>
 
-    <!--TODO (3) Add a string called action_settings with value of Settings-->
+    <!--DONE (3) Add a string called action_settings with value of Settings-->
 
     <!--Used in overflow menu to refresh weather data-->
     <string name="action_refresh">Refresh</string>
@@ -86,7 +86,7 @@
         <xliff:g id="month">%1$s</xliff:g>, <xliff:g id="day">%2$s</xliff:g>
     </string>
 
-
+    <string name="action_setting"> settings </string>
     <!-- - - - - - - - - - - - - - - -->
     <!-- Used by SunshineWeatherUtils-->
     <!-- - - - - - - - - - - - - - - -->

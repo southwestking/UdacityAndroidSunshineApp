@@ -15,11 +15,36 @@
  */
 package com.example.android.sunshine.data;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
 /**
  * Manages a local database for weather data.
  */
 // TODO (11) Extend SQLiteOpenHelper from WeatherDbHelper
-public class WeatherDbHelper {
+public class WeatherDbHelper extends SQLiteOpenHelper {
+    private static final String DATABASE_NAME = "weather.db";
+    private static final int DATABASE_VERSION = 1;
+    public WeatherDbHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        final String SQL_CREATE_TABLE = "CREATE TABLE " + WeatherContract.WeatherEntry.TABLE_NAME +
+                " ( " + WeatherContract.WeatherEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                WeatherContract.WeatherEntry.COLUMN_DATE + "DATE NOT NULL, " +
+                WeatherContract.WeatherEntry.COLUMN_HUMIDITY + "INTEGER NOT NULL);";
+
+        sqLiteDatabase.execSQL(SQL_CREATE_TABLE);
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+
+    }
 
 //  TODO (12) Create a public static final String called DATABASE_NAME with value "weather.db"
 

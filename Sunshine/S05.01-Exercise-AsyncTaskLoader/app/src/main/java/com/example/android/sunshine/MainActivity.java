@@ -20,6 +20,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,8 +42,9 @@ import com.example.android.sunshine.utilities.OpenWeatherJsonUtils;
 import java.net.URL;
 
 // TODO (1) Implement the proper LoaderCallbacks interface and the methods of that interface
-public class MainActivity extends AppCompatActivity implements ForecastAdapterOnClickHandler {
-
+public class MainActivity extends AppCompatActivity implements ForecastAdapterOnClickHandler, LoaderManager.LoaderCallbacks<String[]> {
+    String LOCATION_FROM_PREF;
+    final int MY_LOADER = 22;
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private RecyclerView mRecyclerView;
@@ -54,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forecast);
-
+        LOCATION_FROM_PREF = SunshinePreferences.getPreferredWeatherLocation(this);
         /*
          * Using findViewById, we get a reference to our RecyclerView from xml. This allows us to
          * do things like set the adapter of the RecyclerView and toggle the visibility.
@@ -97,9 +101,12 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
          * circle. We didn't make the rules (or the names of Views), we just follow them.
          */
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
-
+        SunshinePreferences.getPreferredWeatherLocation(this);
         // TODO (7) Remove the code for the AsyncTask and initialize the AsyncTaskLoader
         /* Once all of our views are setup, we can load the weather data. */
+//        loadWeatherData();
+
+        getSupportLoaderManager().initLoader(MY_LOADER, null, this);
         loadWeatherData();
     }
 
@@ -112,6 +119,22 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
 
         String location = SunshinePreferences.getPreferredWeatherLocation(this);
         new FetchWeatherTask().execute(location);
+
+        Bundle queryBundle = new Bundle();
+//        queryBundle.putString(SEARCH_QUERY_URL_EXTRA, githubSearchUrl.toString());
+        LoaderManager loaderManager = getSupportLoaderManager();
+        Loader<String> githubSearchLoader = loaderManager.getLoader(MY_LOADER);
+
+        if(githubSearchLoader == null){
+            loaderManager.initLoader(MY_LOADER, queryBundle, this);
+            Log.d("111","githubSearchLoaderfound");
+        }
+        else{
+            loaderManager.restartLoader(MY_LOADER, queryBundle, this);
+            Log.d("111","githubSearchLoadernotfound");
+
+        }
+
     }
 
     // TODO (2) Within onCreateLoader, return a new AsyncTaskLoader that looks a lot like the existing FetchWeatherTask.
@@ -160,6 +183,75 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
         mRecyclerView.setVisibility(View.INVISIBLE);
         /* Then, show the error */
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public Loader<String[]> onCreateLoader(int id, final Bundle args) {
+        return new AsyncTaskLoader<String[]>(this) {
+//           cache
+            String[] localWeatherData = null;
+
+            @Override
+            public String[] loadInBackground() {
+                   if (LOCATION_FROM_PREF == null) {
+                    return null;
+                }
+
+                String location = LOCATION_FROM_PREF;
+                URL weatherRequestUrl = NetworkUtils.buildUrl(location);
+
+                try {
+                    String jsonWeatherResponse = NetworkUtils
+                            .getResponseFromHttpUrl(weatherRequestUrl);
+
+                    String[] simpleJsonWeatherData = OpenWeatherJsonUtils
+                            .getSimpleWeatherStringsFromJson(MainActivity.this, jsonWeatherResponse);
+
+                    return simpleJsonWeatherData;
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            public void deliverResult(String[] data) {
+                               localWeatherData = data;
+                               super.deliverResult(data);
+                           }
+
+            @Override
+            protected void onStartLoading() {
+                super.onStartLoading();
+                if(args == null){
+                    return;
+                }
+                Log.d("111","startfinished");
+                mLoadingIndicator.setVisibility(View.VISIBLE);
+                if(localWeatherData != null)
+                    deliverResult(localWeatherData);
+                else
+                    forceLoad();
+            }
+        };
+
+
+    }
+
+    @Override
+    public void onLoadFinished(Loader<String[]> loader, String[] data) {
+        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        if (data != null) {
+            showWeatherDataView();
+            mForecastAdapter.setWeatherData(data);
+        } else {
+            showErrorMessage();
+        }
+
+    }
+    @Override
+    public void onLoaderReset(Loader<String[]> loader) {
+
     }
 
     // TODO (6) Remove any and all code from MainActivity that references FetchWeatherTask
